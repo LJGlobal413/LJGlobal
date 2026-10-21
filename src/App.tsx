@@ -17,6 +17,7 @@ import { PrintMisSolutions } from './components/PrintMisSolutions';
 import { ProcessAndLogistics } from './components/ProcessAndLogistics';
 import { AboutAndLinkedIn } from './components/AboutAndLinkedIn';
 import { RfqModal } from './components/RfqModal';
+import { ExportCodeModal } from './components/ExportCodeModal';
 import { StructuralCategory, AIPackagingRecommendation } from './types';
 import { COMPANY_PROFILE } from './data/printingData';
 import { ExternalLink, Mail, Package, Layers, Truck } from 'lucide-react';
@@ -24,6 +25,7 @@ import { ExternalLink, Mail, Package, Layers, Truck } from 'lucide-react';
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('top');
   const [isRfqModalOpen, setIsRfqModalOpen] = useState<boolean>(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [rfqInitialSpec, setRfqInitialSpec] = useState<any | null>(null);
   const [quoteInitialCategory, setQuoteInitialCategory] =
     useState<StructuralCategory | undefined>(undefined);
@@ -130,6 +132,7 @@ export default function App() {
         activeSection={activeSection}
         onNavigate={handleNavigate}
         onOpenQuoteModal={() => handleOpenRfqModal()}
+        onOpenExportModal={() => setIsExportModalOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -268,6 +271,12 @@ export default function App() {
         isOpen={isRfqModalOpen}
         onClose={() => setIsRfqModalOpen(false)}
         initialSpec={rfqInitialSpec}
+      />
+
+      {/* HTML, CSS & JavaScript Standalone Export Modal */}
+      <ExportCodeModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
       />
     </div>
   );

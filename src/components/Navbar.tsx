@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ArrowRight, ChevronDown, Package, Box, Layers, Truck, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown, Package, Box, Layers, Truck, Sparkles, Code2 } from 'lucide-react';
 import { COMPANY_PROFILE } from '../data/printingData';
 
 interface NavbarProps {
   onOpenQuoteModal: (initialService?: string) => void;
+  onOpenExportModal?: () => void;
   activeSection: string;
   onNavigate: (sectionId: string) => void;
 }
@@ -17,6 +18,7 @@ interface PackagingSubService {
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenQuoteModal,
+  onOpenExportModal,
   activeSection,
   onNavigate,
 }) => {
@@ -158,7 +160,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Zone 3: Action Buttons */}
-        <div className="hidden sm:flex items-center gap-3 shrink-0">
+        <div className="hidden sm:flex items-center gap-2.5 shrink-0">
+          {onOpenExportModal && (
+            <button
+              onClick={onOpenExportModal}
+              className="group bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider px-3.5 py-2.5 rounded-lg border border-slate-300 transition-all duration-150 cursor-pointer flex items-center gap-1.5 shadow-2xs hover:shadow-xs active:scale-[0.98]"
+              title="View, copy, and download pure standalone HTML, CSS, and JavaScript files"
+            >
+              <Code2 className="w-3.5 h-3.5 text-[#0066E5]" />
+              <span>HTML / CSS / JS</span>
+            </button>
+          )}
+
           <button
             onClick={() => onOpenQuoteModal('General Packaging Inquiry')}
             className="group bg-[#0066E5] hover:bg-[#0052B8] text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-lg transition-all duration-150 cursor-pointer flex items-center gap-2 shadow-sm hover:shadow active:scale-[0.98]"
@@ -216,7 +229,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          <div className="pt-2 border-t border-zinc-100">
+          <div className="pt-2 border-t border-zinc-100 space-y-2">
+            {onOpenExportModal && (
+              <button
+                onClick={() => {
+                  onOpenExportModal();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase text-center rounded-lg border border-slate-300 flex items-center justify-center gap-2"
+              >
+                <Code2 className="w-4 h-4 text-[#0066E5]" />
+                <span>Export HTML / CSS / JS</span>
+              </button>
+            )}
+
             <button
               onClick={() => {
                 onOpenQuoteModal('General Packaging Inquiry');
