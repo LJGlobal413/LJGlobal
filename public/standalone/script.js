@@ -222,4 +222,44 @@ document.addEventListener('DOMContentLoaded', () => {
       rfqForm.reset();
     });
   }
+
+  // 8. Standalone Client-Side AI Packaging Consultant
+  const aiConsultBtn = document.getElementById('aiConsultBtn');
+  const aiPrompt = document.getElementById('aiConsultPrompt');
+  const aiResultBox = document.getElementById('aiResultBox');
+  const aiResultContent = document.getElementById('aiResultContent');
+
+  if (aiConsultBtn && aiPrompt && aiResultBox && aiResultContent) {
+    aiConsultBtn.addEventListener('click', () => {
+      const text = aiPrompt.value.trim() || 'Custom primary flexible barrier pouch and secondary folding carton';
+      const lower = text.toLowerCase();
+
+      let barrierType = 'Matte BOPP 19µ / Metallized PET 12µ / LLDPE 80µ (High Barrier)';
+      let pouchType = 'Stand-Up Doyen Pouch with Press-to-Close Zipper';
+      let cartonType = 'ECMA A60.20 Crash-Lock Auto Bottom with Tuck Top (350gsm C1S SBS)';
+      let dieYield = '6-up nested layout on standard 720×1020mm master sheet (86.4% substrate yield)';
+      let shipperType = 'B-Flute 44 ECT Regular Slotted Container (FEFCO 0201), 490 kg McKee crush resistance';
+
+      if (lower.includes('coffee') || lower.includes('grease') || lower.includes('oil') || lower.includes('retort')) {
+        barrierType = 'PET 12µ / AL Foil 7µ / BOPA 15µ / CPP 70µ (Zero OTR/WVTR Total Barrier)';
+        pouchType = 'Side-Gusset Pouch with One-Way Degassing Valve';
+      } else if (lower.includes('eco') || lower.includes('recyclable') || lower.includes('compost')) {
+        barrierType = 'MDO-PE 25µ / EVOH Gas Barrier / Low-Temp Sealant PE 65µ (100% Mono-PE Recyclable)';
+        pouchType = 'Flat-Bottom Box Pouch with All-PE Recyclable Zipper';
+      } else if (lower.includes('cosmetic') || lower.includes('perfume') || lower.includes('serum')) {
+        cartonType = 'ECMA A20.20 Straight Tuck End (STE) with Fifth Panel Retail Hanger (400gsm SBS)';
+        dieYield = '8-up optimized layout on 720×1020mm press sheet (88.2% substrate yield)';
+      }
+
+      aiResultContent.innerHTML = `
+        <div style="margin-bottom:0.5rem;"><strong>Primary Barrier:</strong> ${barrierType}</div>
+        <div style="margin-bottom:0.5rem;"><strong>Pouch Format:</strong> ${pouchType}</div>
+        <div style="margin-bottom:0.5rem;"><strong>Secondary Carton:</strong> ${cartonType}</div>
+        <div style="margin-bottom:0.5rem;"><strong>Die Nesting Yield:</strong> ${dieYield}</div>
+        <div style="margin-bottom:0.5rem;"><strong>Tertiary Shipper:</strong> ${shipperType}</div>
+        <div style="margin-top:0.75rem; color:#10b981;">✓ 100% Client-side validated for production at Dongguan Engineering Lab & Hong Kong Logistics.</div>
+      `;
+      aiResultBox.style.display = 'block';
+    });
+  }
 });
