@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -176,12 +175,14 @@ Return strictly a JSON object matching this schema:
     }
   });
 
-  // Auto-detect production mode when dist/index.html exists and not in explicit development
-  const distPath = path.resolve(process.cwd(), 'dist');
-  const hasDist = fs.existsSync(path.join(distPath, 'index.html'));
-  const isProduction =
-    process.env.NODE_ENV === 'production' ||
-    (process.env.NODE_ENV !== 'development' && hasDist);
+  // Detect whether running as bundled production server (dist/server.cjs) or in production mode
+  const isBundled = typeof __filename !== 'undefined' && (__filename.endsWith('.cjs') || __filename.includes('dist'));
+  const isProduction = process.env.NODE_ENV === 'production' || isBundled;
+
+  const distPath =
+    typeof __dirname !== 'undefined' && fs.existsSync(path.join(__dirname, 'index.html'))
+      ? __dirname
+      : path.resolve(process.cwd(), 'dist');
 
   if (isProduction) {
     app.use(express.static(distPath));
@@ -189,7 +190,9 @@ Return strictly a JSON object matching this schema:
       res.sendFile(path.join(distPath, 'index.html'));
     });
   } else {
-    const vite = await createViteServer({
+    const vitePkg = 'vite';
+    const { createServer } = await import(vitePkg);
+    const vite = await createServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
