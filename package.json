@@ -1,13 +1,17 @@
 {
-  "name": "react-example",
+  "name": "lj-packaging-portal",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "NODE_ENV=development tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --outfile=dist/server.cjs",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --outfile=dist/server.cjs && node scripts/postbuild.js",
+    "postbuild": "node scripts/postbuild.js",
     "start": "node dist/server.cjs",
-    "clean": "rm -rf dist server.js",
+    "clean": "rm -rf dist build server.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

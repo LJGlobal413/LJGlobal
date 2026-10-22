@@ -182,7 +182,9 @@ Return strictly a JSON object matching this schema:
   const distPath =
     typeof __dirname !== 'undefined' && fs.existsSync(path.join(__dirname, 'index.html'))
       ? __dirname
-      : path.resolve(process.cwd(), 'dist');
+      : fs.existsSync(path.resolve(process.cwd(), 'dist', 'index.html'))
+      ? path.resolve(process.cwd(), 'dist')
+      : path.resolve(process.cwd(), 'build');
 
   if (isProduction) {
     app.use(express.static(distPath));
